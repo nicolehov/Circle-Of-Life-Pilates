@@ -1,0 +1,1511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Circle of Life Pilates — Movement for Every Age</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════
+   TOKENS & RESET
+═══════════════════════════════════════ */
+:root {
+  --sage:        #7A9E7E;
+  --sage-dark:   #4A7A52;
+  --sage-light:  #A8C5AB;
+  --sage-pale:   #EAF2EB;
+  --terra:       #D4785A;
+  --terra-pale:  #FAEEE9;
+  --gold:        #C9A84C;
+  --gold-pale:   #FBF5E6;
+  --charcoal:    #2C2C2C;
+  --mid:         #6B6B6B;
+  --light:       #E8E4DF;
+  --cream:       #FAF7F2;
+  --warm-white:  #FFFDF9;
+  --nav-h:       72px;
+}
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body {
+  font-family:'DM Sans', sans-serif;
+  background:var(--cream);
+  color:var(--charcoal);
+  line-height:1.6;
+  overflow-x:hidden;
+}
+img { max-width:100%; display:block; }
+a  { text-decoration:none; color:inherit; }
+button { cursor:pointer; border:none; background:none; font-family:inherit; }
+
+/* ═══════════════════════════════════════
+   PAGE SYSTEM
+═══════════════════════════════════════ */
+.page { display:none; opacity:0; transform:translateY(16px); transition:opacity 0.4s ease, transform 0.4s ease; }
+.page.active { display:block; }
+.page.visible { opacity:1; transform:translateY(0); }
+
+/* ═══════════════════════════════════════
+   NAV
+═══════════════════════════════════════ */
+nav {
+  position:fixed; top:0; left:0; right:0; z-index:100;
+  height:var(--nav-h);
+  background:rgba(250,247,242,0.92);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--light);
+  display:flex; align-items:center; justify-content:space-between;
+  padding:0 60px;
+  transition:box-shadow 0.3s;
+}
+nav.scrolled { box-shadow:0 4px 24px rgba(0,0,0,0.07); }
+
+.nav-logo {
+  display:flex; align-items:center; gap:14px; cursor:pointer;
+}
+.nav-logo-text { line-height:1.2; }
+.nav-logo-name {
+  font-family:'Cormorant Garamond',serif;
+  font-size:16px; font-weight:600;
+  letter-spacing:0.08em; text-transform:uppercase;
+  color:var(--charcoal);
+}
+.nav-logo-tag {
+  font-size:8.5px; font-weight:400; letter-spacing:0.22em;
+  text-transform:uppercase; color:var(--mid); margin-top:1px;
+}
+
+.nav-links { display:flex; align-items:center; gap:36px; }
+.nav-link {
+  font-size:12px; font-weight:400; letter-spacing:0.12em;
+  text-transform:uppercase; color:var(--mid);
+  cursor:pointer; position:relative; padding-bottom:2px;
+  transition:color 0.2s;
+}
+.nav-link::after {
+  content:''; position:absolute; bottom:0; left:0;
+  width:0; height:1px; background:var(--sage);
+  transition:width 0.25s ease;
+}
+.nav-link:hover { color:var(--charcoal); }
+.nav-link:hover::after, .nav-link.active::after { width:100%; }
+.nav-link.active { color:var(--charcoal); }
+
+.nav-cta {
+  background:var(--sage); color:white;
+  font-size:11px; font-weight:500; letter-spacing:0.15em;
+  text-transform:uppercase; padding:10px 22px; border-radius:24px;
+  cursor:pointer; transition:background 0.2s, transform 0.15s;
+}
+.nav-cta:hover { background:var(--sage-dark); transform:translateY(-1px); }
+
+.nav-mobile-toggle { display:none; flex-direction:column; gap:5px; cursor:pointer; padding:4px; }
+.nav-mobile-toggle span { display:block; width:22px; height:1.5px; background:var(--charcoal); border-radius:2px; transition:all 0.3s; }
+
+.mobile-menu {
+  display:none; position:fixed; top:var(--nav-h); left:0; right:0; z-index:99;
+  background:var(--warm-white); border-bottom:1px solid var(--light);
+  padding:24px 32px; flex-direction:column; gap:20px;
+  box-shadow:0 8px 32px rgba(0,0,0,0.08);
+}
+.mobile-menu.open { display:flex; }
+.mobile-menu .nav-link { font-size:14px; }
+
+/* ═══════════════════════════════════════
+   SHARED COMPONENTS
+═══════════════════════════════════════ */
+.container { max-width:1100px; margin:0 auto; padding:0 60px; }
+.section { padding:96px 0; }
+.section-sm { padding:64px 0; }
+
+.eyebrow {
+  font-size:10px; font-weight:500; letter-spacing:0.32em;
+  text-transform:uppercase; color:var(--sage); margin-bottom:14px;
+  display:flex; align-items:center; gap:12px;
+}
+.eyebrow::before { content:''; display:block; width:24px; height:1px; background:var(--sage); }
+
+.display-heading {
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(38px,5vw,64px);
+  font-weight:600; line-height:1.08;
+  color:var(--charcoal); letter-spacing:-0.01em;
+}
+.display-heading em { font-style:italic; color:var(--sage); }
+
+.body-text { font-size:15px; font-weight:300; color:var(--mid); line-height:1.75; }
+
+.btn-primary {
+  display:inline-flex; align-items:center; gap:10px;
+  background:var(--sage); color:white;
+  font-size:11px; font-weight:500; letter-spacing:0.18em; text-transform:uppercase;
+  padding:14px 28px; border-radius:32px;
+  cursor:pointer; transition:all 0.2s;
+}
+.btn-primary:hover { background:var(--sage-dark); transform:translateY(-2px); box-shadow:0 8px 24px rgba(122,158,126,0.35); }
+
+.btn-ghost {
+  display:inline-flex; align-items:center; gap:10px;
+  border:1.5px solid var(--charcoal); color:var(--charcoal);
+  font-size:11px; font-weight:500; letter-spacing:0.18em; text-transform:uppercase;
+  padding:13px 28px; border-radius:32px;
+  cursor:pointer; transition:all 0.2s;
+}
+.btn-ghost:hover { border-color:var(--sage); color:var(--sage); transform:translateY(-2px); }
+
+.tag-pill {
+  display:inline-block; font-size:9px; font-weight:500;
+  letter-spacing:0.16em; text-transform:uppercase;
+  padding:5px 12px; border-radius:20px; color:white;
+}
+.tp-sage   { background:var(--sage); }
+.tp-terra  { background:var(--terra); }
+.tp-gold   { background:var(--gold); color:var(--charcoal); }
+.tp-dark   { background:var(--charcoal); }
+
+/* Divider */
+.ornament-divider {
+  display:flex; align-items:center; gap:16px;
+  margin:24px 0;
+}
+.od-line { flex:1; height:1px; background:linear-gradient(90deg,transparent,var(--light),transparent); }
+.od-mark { width:6px; height:6px; border-radius:50%; background:var(--gold); }
+
+/* ═══════════════════════════════════════
+   LOGO SVG (reusable)
+═══════════════════════════════════════ */
+.logo-svg-c { /* Concept C nested figures */ }
+
+/* ═══════════════════════════════════════
+   PAGE: HOME
+═══════════════════════════════════════ */
+
+/* Hero */
+.hero {
+  min-height:100vh;
+  padding-top:var(--nav-h);
+  display:flex; align-items:center;
+  position:relative; overflow:hidden;
+  background: linear-gradient(160deg, #4A7A52 0%, #3A6442 40%, #2C5236 100%);
+}
+.hero::before {
+  content:'';
+  position:absolute; inset:0;
+  background:
+    radial-gradient(ellipse 55% 70% at 15% 40%, rgba(255,255,255,0.06) 0%, transparent 65%),
+    radial-gradient(ellipse 40% 60% at 85% 70%, rgba(0,0,0,0.15) 0%, transparent 60%);
+}
+.hero-bg-ring {
+  position:absolute; border-radius:50%; border:1px solid rgba(255,255,255,0.06);
+}
+.hero-bg-ring-1 { width:700px; height:700px; top:50%; left:50%; transform:translate(-50%,-50%); }
+.hero-bg-ring-2 { width:520px; height:520px; top:50%; left:50%; transform:translate(-50%,-50%); border-color:rgba(201,168,76,0.1); }
+.hero-bg-ring-3 { width:340px; height:340px; top:50%; left:50%; transform:translate(-50%,-50%); }
+
+.hero-content {
+  position:relative; z-index:2;
+  width:100%; max-width:1100px; margin:0 auto; padding:0 60px;
+  display:grid; grid-template-columns:1fr 420px; gap:80px; align-items:center;
+}
+
+.hero-left {}
+.hero-eyebrow {
+  font-size:10px; font-weight:500; letter-spacing:0.3em;
+  text-transform:uppercase; color:rgba(255,255,255,0.55);
+  margin-bottom:20px; display:flex; align-items:center; gap:12px;
+}
+.hero-eyebrow::before { content:''; display:block; width:24px; height:1px; background:rgba(255,255,255,0.4); }
+
+.hero-title {
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(44px,6vw,80px);
+  font-weight:600; line-height:1.0;
+  color:white; letter-spacing:-0.01em; margin-bottom:24px;
+}
+.hero-title em { font-style:italic; color:var(--gold); display:block; }
+
+.hero-body {
+  font-size:16px; font-weight:300; color:rgba(255,255,255,0.72);
+  line-height:1.75; max-width:440px; margin-bottom:36px;
+}
+
+.hero-actions { display:flex; gap:14px; flex-wrap:wrap; margin-bottom:48px; }
+.hero-btn-primary {
+  display:inline-flex; align-items:center; gap:10px;
+  background:white; color:var(--sage-dark);
+  font-size:11px; font-weight:500; letter-spacing:0.16em; text-transform:uppercase;
+  padding:14px 28px; border-radius:32px;
+  cursor:pointer; transition:all 0.2s;
+}
+.hero-btn-primary:hover { transform:translateY(-2px); box-shadow:0 10px 30px rgba(0,0,0,0.2); }
+.hero-btn-ghost {
+  display:inline-flex; align-items:center; gap:10px;
+  border:1.5px solid rgba(255,255,255,0.4); color:rgba(255,255,255,0.85);
+  font-size:11px; font-weight:500; letter-spacing:0.16em; text-transform:uppercase;
+  padding:13px 28px; border-radius:32px;
+  cursor:pointer; transition:all 0.2s;
+}
+.hero-btn-ghost:hover { border-color:white; color:white; transform:translateY(-2px); }
+
+.hero-series {
+  display:flex; gap:10px; flex-wrap:wrap;
+}
+.hero-series-tag {
+  font-size:9px; font-weight:500; letter-spacing:0.15em; text-transform:uppercase;
+  padding:6px 14px; border-radius:20px; color:white;
+  background:rgba(255,255,255,0.12); border:1px solid rgba(255,255,255,0.2);
+  transition:background 0.2s;
+}
+.hero-series-tag:hover { background:rgba(255,255,255,0.2); }
+
+/* Hero logo mark */
+.hero-right {
+  display:flex; align-items:center; justify-content:center;
+  animation: float 6s ease-in-out infinite;
+}
+@keyframes float {
+  0%,100% { transform:translateY(0); }
+  50% { transform:translateY(-12px); }
+}
+
+/* Series strip */
+.series-strip { background:var(--warm-white); padding:0; }
+.series-strip-inner {
+  max-width:1100px; margin:0 auto; padding:0 60px;
+  display:grid; grid-template-columns:repeat(4,1fr);
+  border-left:1px solid var(--light);
+}
+.series-card {
+  padding:40px 32px; border-right:1px solid var(--light);
+  cursor:pointer; transition:background 0.2s;
+  position:relative; overflow:hidden;
+}
+.series-card::before {
+  content:''; position:absolute; top:0; left:0; right:0;
+  height:3px; transform:scaleX(0); transform-origin:left;
+  transition:transform 0.3s ease;
+}
+.sc-sage::before   { background:var(--sage); }
+.sc-terra::before  { background:var(--terra); }
+.sc-gold::before   { background:var(--gold); }
+.sc-dark::before   { background:var(--charcoal); }
+.series-card:hover::before { transform:scaleX(1); }
+.series-card:hover { background:var(--cream); }
+
+.sc-dot { width:8px; height:8px; border-radius:50%; margin-bottom:14px; }
+.sc-sage .sc-dot   { background:var(--sage); }
+.sc-terra .sc-dot  { background:var(--terra); }
+.sc-gold .sc-dot   { background:var(--gold); }
+.sc-dark .sc-dot   { background:var(--charcoal); }
+
+.sc-title {
+  font-family:'Cormorant Garamond',serif;
+  font-size:22px; font-weight:600;
+  color:var(--charcoal); margin-bottom:6px;
+}
+.sc-desc { font-size:12px; color:var(--mid); line-height:1.55; }
+
+/* Intro section */
+.intro-grid {
+  display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:center;
+}
+.intro-logo-wrap {
+  display:flex; align-items:center; justify-content:center;
+  position:relative;
+}
+.intro-logo-bg {
+  width:380px; height:380px; border-radius:50%;
+  background:var(--sage-pale); display:flex; align-items:center; justify-content:center;
+  position:relative;
+}
+.intro-logo-bg::before {
+  content:''; position:absolute; inset:-20px;
+  border-radius:50%; border:1px solid var(--light);
+}
+.intro-logo-bg::after {
+  content:''; position:absolute; inset:-44px;
+  border-radius:50%; border:1px dashed var(--gold);
+  opacity:0.3;
+}
+.intro-stats {
+  display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:36px;
+}
+.stat-card {
+  background:white; border-radius:12px; padding:20px 22px;
+  box-shadow:0 2px 10px rgba(0,0,0,0.05);
+}
+.stat-num {
+  font-family:'Cormorant Garamond',serif;
+  font-size:32px; font-weight:600; color:var(--sage); line-height:1;
+  margin-bottom:4px;
+}
+.stat-label { font-size:11px; color:var(--mid); letter-spacing:0.05em; }
+
+/* ═══════════════════════════════════════
+   PAGE: ABOUT
+═══════════════════════════════════════ */
+.about-hero {
+  padding-top:calc(var(--nav-h) + 80px);
+  padding-bottom:80px;
+  background:var(--warm-white);
+  border-bottom:1px solid var(--light);
+}
+.about-hero-inner {
+  display:grid; grid-template-columns:1fr 400px; gap:80px; align-items:center;
+}
+.about-portrait {
+  width:100%; aspect-ratio:4/5;
+  background:linear-gradient(135deg,var(--sage-pale),var(--sage-light));
+  border-radius:24px; position:relative;
+  display:flex; align-items:center; justify-content:center;
+  overflow:hidden;
+}
+.about-portrait-ring {
+  position:absolute; inset:20px; border-radius:18px;
+  border:1px solid rgba(201,168,76,0.25);
+}
+.about-portrait-text {
+  font-family:'Cormorant Garamond',serif;
+  font-size:13px; font-style:italic; color:var(--mid);
+  position:absolute; bottom:20px; left:0; right:0; text-align:center;
+}
+
+.about-credentials { display:flex; flex-wrap:wrap; gap:10px; margin:24px 0 28px; }
+.cred-chip {
+  display:inline-flex; align-items:center; gap:7px;
+  background:var(--sage-pale); border-radius:20px;
+  padding:7px 14px; font-size:11px; font-weight:500;
+  color:var(--sage-dark); letter-spacing:0.05em;
+}
+.cred-chip .dot { width:6px; height:6px; border-radius:50%; background:var(--sage); }
+
+.values-grid {
+  display:grid; grid-template-columns:repeat(3,1fr); gap:20px; margin-top:16px;
+}
+.value-card {
+  background:white; border-radius:14px; padding:28px 24px;
+  box-shadow:0 2px 12px rgba(0,0,0,0.05);
+  border-top:3px solid transparent;
+  transition:transform 0.2s, box-shadow 0.2s;
+}
+.value-card:hover { transform:translateY(-4px); box-shadow:0 8px 28px rgba(0,0,0,0.09); }
+.vc-sage  { border-top-color:var(--sage); }
+.vc-terra { border-top-color:var(--terra); }
+.vc-gold  { border-top-color:var(--gold); }
+.value-icon { font-size:22px; margin-bottom:12px; }
+.value-title {
+  font-family:'Cormorant Garamond',serif;
+  font-size:20px; font-weight:600; margin-bottom:8px;
+}
+.value-body { font-size:12px; color:var(--mid); line-height:1.6; }
+
+/* ═══════════════════════════════════════
+   PAGE: VIDEOS
+═══════════════════════════════════════ */
+.videos-header {
+  padding-top:calc(var(--nav-h) + 80px);
+  padding-bottom:60px;
+  background:var(--warm-white);
+  border-bottom:1px solid var(--light);
+}
+.filter-tabs {
+  display:flex; gap:8px; flex-wrap:wrap; margin-top:32px;
+}
+.filter-tab {
+  font-size:10px; font-weight:500; letter-spacing:0.18em; text-transform:uppercase;
+  padding:8px 18px; border-radius:20px; cursor:pointer;
+  border:1.5px solid var(--light); color:var(--mid);
+  transition:all 0.2s;
+}
+.filter-tab:hover, .filter-tab.active { border-color:var(--sage); color:var(--sage); background:var(--sage-pale); }
+.filter-tab.active { background:var(--sage); color:white; border-color:var(--sage); }
+
+.videos-grid {
+  display:grid; grid-template-columns:repeat(3,1fr); gap:24px;
+  padding:60px 0;
+}
+.video-card {
+  background:white; border-radius:16px; overflow:hidden;
+  box-shadow:0 2px 12px rgba(0,0,0,0.06);
+  cursor:pointer; transition:transform 0.2s, box-shadow 0.2s;
+}
+.video-card:hover { transform:translateY(-6px); box-shadow:0 12px 40px rgba(0,0,0,0.12); }
+
+.video-thumb {
+  aspect-ratio:16/9; position:relative; overflow:hidden;
+  display:flex; align-items:flex-end;
+}
+.vt-sage  { background:linear-gradient(135deg,#4A7A52,#2E5235); }
+.vt-terra { background:linear-gradient(135deg,#C05840,#8C3824); }
+.vt-gold  { background:linear-gradient(135deg,#8A7235,#6A5220); }
+.vt-dark  { background:linear-gradient(135deg,#3A3A3A,#1E1E1E); }
+
+.vt-ring {
+  position:absolute; right:-20px; top:-20px;
+  width:120px; height:120px; border-radius:50%;
+  border:1px solid rgba(255,255,255,0.1);
+}
+.vt-ring-2 {
+  position:absolute; right:10px; top:10px;
+  width:70px; height:70px; border-radius:50%;
+  border:1px solid rgba(255,255,255,0.07);
+}
+.vt-play {
+  position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+  width:44px; height:44px; border-radius:50%;
+  background:rgba(255,255,255,0.18); backdrop-filter:blur(4px);
+  display:flex; align-items:center; justify-content:center;
+  transition:background 0.2s;
+  border:1.5px solid rgba(255,255,255,0.3);
+}
+.video-card:hover .vt-play { background:rgba(255,255,255,0.3); }
+.vt-play svg { margin-left:3px; }
+
+.vt-meta {
+  position:relative; z-index:2; padding:12px 14px; width:100%;
+  display:flex; justify-content:space-between; align-items:flex-end;
+}
+.vt-series-tag {
+  font-size:8px; font-weight:500; letter-spacing:0.16em;
+  text-transform:uppercase; color:white;
+  background:rgba(0,0,0,0.3); backdrop-filter:blur(4px);
+  padding:4px 10px; border-radius:10px;
+}
+.vt-duration {
+  font-size:9px; color:rgba(255,255,255,0.7);
+  background:rgba(0,0,0,0.4); padding:3px 7px; border-radius:4px;
+}
+
+.video-info { padding:18px 20px; }
+.video-title {
+  font-family:'Cormorant Garamond',serif;
+  font-size:17px; font-weight:600; color:var(--charcoal);
+  line-height:1.3; margin-bottom:8px;
+}
+.video-desc { font-size:12px; color:var(--mid); line-height:1.55; margin-bottom:12px; }
+.video-tag-row { display:flex; gap:8px; flex-wrap:wrap; }
+.video-mini-tag {
+  font-size:9px; color:var(--mid); letter-spacing:0.1em; text-transform:uppercase;
+  background:var(--cream); padding:3px 8px; border-radius:6px;
+}
+
+/* Coming soon card */
+.video-card-soon {
+  background:var(--cream); border:2px dashed var(--light);
+  border-radius:16px; aspect-ratio:auto; min-height:280px;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  gap:10px; color:var(--mid); padding:28px;
+}
+.vcs-label { font-size:10px; letter-spacing:0.22em; text-transform:uppercase; }
+.vcs-text { font-family:'Cormorant Garamond',serif; font-size:18px; text-align:center; color:var(--charcoal); font-style:italic; }
+
+/* ═══════════════════════════════════════
+   PAGE: FREE RESOURCE
+═══════════════════════════════════════ */
+.resource-hero {
+  padding-top:calc(var(--nav-h) + 80px);
+  padding-bottom:80px;
+  background:linear-gradient(160deg,#4A7A52 0%,#3A6442 60%,#2C5236 100%);
+  position:relative; overflow:hidden;
+}
+.resource-hero::before {
+  content:'';
+  position:absolute; inset:0;
+  background:radial-gradient(ellipse 50% 80% at 80% 50%, rgba(201,168,76,0.1) 0%, transparent 65%);
+}
+.resource-hero-inner {
+  position:relative; z-index:2;
+  display:grid; grid-template-columns:1fr 380px; gap:80px; align-items:center;
+}
+.resource-eyebrow {
+  font-size:10px; letter-spacing:0.3em; text-transform:uppercase;
+  color:rgba(255,255,255,0.55); margin-bottom:16px;
+  display:flex; align-items:center; gap:12px;
+}
+.resource-eyebrow::before { content:''; width:24px; height:1px; background:rgba(255,255,255,0.4); }
+.resource-title {
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(36px,5vw,58px); font-weight:600; line-height:1.08;
+  color:white; margin-bottom:20px;
+}
+.resource-title em { font-style:italic; color:var(--gold); }
+.resource-body { font-size:15px; color:rgba(255,255,255,0.72); line-height:1.75; margin-bottom:32px; }
+
+/* PDF card mockup */
+.pdf-card {
+  background:var(--warm-white); border-radius:20px;
+  padding:36px 32px; box-shadow:0 20px 60px rgba(0,0,0,0.3);
+  position:relative; overflow:hidden;
+}
+.pdf-card::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:4px;
+  background:linear-gradient(90deg,var(--sage),var(--gold));
+}
+.pdf-card-tag {
+  font-size:9px; font-weight:500; letter-spacing:0.2em; text-transform:uppercase;
+  color:var(--sage); margin-bottom:12px;
+  display:flex; align-items:center; gap:8px;
+}
+.pdf-card-tag::before { content:''; width:16px; height:1px; background:var(--sage); }
+.pdf-card-title {
+  font-family:'Cormorant Garamond',serif;
+  font-size:26px; font-weight:600; color:var(--charcoal);
+  line-height:1.2; margin-bottom:16px;
+}
+.pdf-includes { display:flex; flex-direction:column; gap:8px; margin-bottom:24px; }
+.pdf-include-row {
+  display:flex; align-items:center; gap:10px;
+  font-size:12px; color:var(--mid);
+}
+.pdf-check { width:16px; height:16px; border-radius:50%; background:var(--sage-pale); display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+
+/* Signup form */
+.signup-form { display:flex; flex-direction:column; gap:12px; }
+.form-field {
+  display:flex; flex-direction:column; gap:6px;
+}
+.form-label { font-size:10px; font-weight:500; letter-spacing:0.16em; text-transform:uppercase; color:var(--mid); }
+.form-input {
+  padding:12px 16px; border:1.5px solid var(--light); border-radius:10px;
+  font-family:'DM Sans',sans-serif; font-size:14px; color:var(--charcoal);
+  background:var(--warm-white); outline:none;
+  transition:border-color 0.2s;
+}
+.form-input:focus { border-color:var(--sage); }
+.form-input::placeholder { color:rgba(107,107,107,0.5); }
+.form-submit {
+  background:var(--sage); color:white;
+  font-family:'DM Sans',sans-serif;
+  font-size:11px; font-weight:500; letter-spacing:0.18em; text-transform:uppercase;
+  padding:14px 28px; border-radius:32px; border:none;
+  cursor:pointer; transition:all 0.2s;
+  display:flex; align-items:center; justify-content:center; gap:10px;
+  margin-top:4px;
+}
+.form-submit:hover { background:var(--sage-dark); transform:translateY(-2px); box-shadow:0 8px 24px rgba(122,158,126,0.35); }
+.form-privacy { font-size:11px; color:var(--mid); text-align:center; margin-top:8px; }
+
+/* What's inside section */
+.inside-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:20px; margin-top:16px; }
+.inside-card {
+  background:white; border-radius:14px; padding:28px 24px;
+  box-shadow:0 2px 10px rgba(0,0,0,0.05);
+  display:flex; gap:16px; align-items:flex-start;
+}
+.inside-icon { font-size:24px; flex-shrink:0; margin-top:2px; }
+.inside-body { flex:1; }
+.inside-title { font-family:'Cormorant Garamond',serif; font-size:18px; font-weight:600; color:var(--charcoal); margin-bottom:6px; }
+.inside-desc { font-size:12px; color:var(--mid); line-height:1.6; }
+
+/* ═══════════════════════════════════════
+   PAGE: CONTACT
+═══════════════════════════════════════ */
+.contact-header {
+  padding-top:calc(var(--nav-h) + 80px);
+  padding-bottom:60px;
+  background:var(--warm-white);
+  border-bottom:1px solid var(--light);
+}
+.contact-grid {
+  display:grid; grid-template-columns:380px 1fr; gap:80px; align-items:start;
+  padding:80px 0;
+}
+.contact-info { position:sticky; top:calc(var(--nav-h) + 32px); }
+.contact-info-title {
+  font-family:'Cormorant Garamond',serif;
+  font-size:32px; font-weight:600; color:var(--charcoal);
+  margin-bottom:16px; line-height:1.2;
+}
+.contact-info-body { font-size:14px; color:var(--mid); line-height:1.75; margin-bottom:32px; }
+.contact-methods { display:flex; flex-direction:column; gap:14px; }
+.contact-method {
+  display:flex; align-items:center; gap:14px;
+  padding:16px 18px; background:white; border-radius:12px;
+  box-shadow:0 2px 8px rgba(0,0,0,0.04);
+}
+.cm-icon { font-size:18px; width:40px; height:40px; border-radius:10px; background:var(--sage-pale); display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.cm-label { font-size:10px; letter-spacing:0.15em; text-transform:uppercase; color:var(--mid); margin-bottom:2px; }
+.cm-val { font-size:13px; color:var(--charcoal); font-weight:400; }
+
+.contact-form-card {
+  background:white; border-radius:20px; padding:48px;
+  box-shadow:0 4px 24px rgba(0,0,0,0.06);
+}
+.contact-form-title {
+  font-family:'Cormorant Garamond',serif;
+  font-size:28px; font-weight:600; margin-bottom:8px;
+}
+.contact-form-sub { font-size:13px; color:var(--mid); margin-bottom:32px; }
+.contact-form { display:flex; flex-direction:column; gap:18px; }
+.form-row { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+.form-textarea {
+  padding:14px 16px; border:1.5px solid var(--light); border-radius:10px;
+  font-family:'DM Sans',sans-serif; font-size:14px; color:var(--charcoal);
+  background:var(--warm-white); outline:none; resize:vertical; min-height:120px;
+  transition:border-color 0.2s;
+}
+.form-textarea:focus { border-color:var(--sage); }
+.form-select {
+  padding:12px 16px; border:1.5px solid var(--light); border-radius:10px;
+  font-family:'DM Sans',sans-serif; font-size:14px; color:var(--charcoal);
+  background:var(--warm-white); outline:none;
+  transition:border-color 0.2s; appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236B6B6B' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat:no-repeat; background-position:right 14px center;
+  padding-right:36px;
+}
+.form-select:focus { border-color:var(--sage); }
+
+/* Success message */
+.form-success {
+  display:none; text-align:center; padding:32px;
+}
+.form-success.show { display:block; }
+.success-icon { font-size:48px; margin-bottom:16px; }
+.success-title { font-family:'Cormorant Garamond',serif; font-size:26px; font-weight:600; margin-bottom:8px; color:var(--sage); }
+.success-body { font-size:14px; color:var(--mid); }
+
+/* ═══════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════ */
+footer {
+  background:var(--charcoal); color:var(--cream);
+  padding:64px 0 32px;
+}
+.footer-inner {
+  display:grid; grid-template-columns:280px 1fr 1fr 160px; gap:48px;
+  padding-bottom:48px; border-bottom:1px solid rgba(255,255,255,0.08);
+}
+.footer-brand {}
+.footer-logo-name {
+  font-family:'Cormorant Garamond',serif;
+  font-size:18px; font-weight:600; letter-spacing:0.08em; text-transform:uppercase;
+  color:white; margin-top:16px; margin-bottom:4px;
+}
+.footer-logo-tag { font-size:9px; letter-spacing:0.22em; text-transform:uppercase; color:rgba(255,255,255,0.4); margin-bottom:16px; }
+.footer-bio { font-size:12px; color:rgba(255,255,255,0.45); line-height:1.7; }
+
+.footer-col-title { font-size:10px; font-weight:500; letter-spacing:0.22em; text-transform:uppercase; color:rgba(255,255,255,0.35); margin-bottom:16px; }
+.footer-links { display:flex; flex-direction:column; gap:10px; }
+.footer-link { font-size:13px; color:rgba(255,255,255,0.55); cursor:pointer; transition:color 0.2s; }
+.footer-link:hover { color:white; }
+
+.footer-social { display:flex; flex-direction:column; gap:10px; }
+.footer-social-link {
+  display:flex; align-items:center; gap:10px;
+  font-size:12px; color:rgba(255,255,255,0.55);
+  cursor:pointer; transition:color 0.2s;
+}
+.footer-social-link:hover { color:white; }
+.footer-social-icon { width:28px; height:28px; border-radius:7px; background:rgba(255,255,255,0.08); display:flex; align-items:center; justify-content:center; font-size:13px; }
+
+.footer-bottom {
+  padding-top:28px; display:flex; justify-content:space-between; align-items:center;
+  flex-wrap:wrap; gap:12px;
+}
+.footer-bottom-text { font-size:11px; color:rgba(255,255,255,0.25); }
+.footer-series-dots { display:flex; gap:8px; align-items:center; }
+.fsd { width:7px; height:7px; border-radius:50%; }
+
+/* ═══════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════ */
+@media (max-width:900px) {
+  nav { padding:0 24px; }
+  .nav-links, .nav-cta { display:none; }
+  .nav-mobile-toggle { display:flex; }
+  .container { padding:0 24px; }
+  .hero-content { grid-template-columns:1fr; gap:40px; padding:0 24px; }
+  .hero-right { display:none; }
+  .series-strip-inner { grid-template-columns:1fr 1fr; padding:0 24px; }
+  .intro-grid { grid-template-columns:1fr; gap:40px; }
+  .about-hero-inner { grid-template-columns:1fr; gap:40px; }
+  .videos-grid { grid-template-columns:repeat(2,1fr); }
+  .resource-hero-inner { grid-template-columns:1fr; gap:40px; }
+  .contact-grid { grid-template-columns:1fr; gap:40px; }
+  .contact-info { position:static; }
+  .footer-inner { grid-template-columns:1fr 1fr; }
+  .form-row { grid-template-columns:1fr; }
+  .inside-grid { grid-template-columns:1fr; }
+  .values-grid { grid-template-columns:1fr; }
+}
+@media (max-width:600px) {
+  .series-strip-inner { grid-template-columns:1fr; }
+  .videos-grid { grid-template-columns:1fr; }
+  .intro-stats { grid-template-columns:1fr 1fr; }
+  .footer-inner { grid-template-columns:1fr; }
+  .contact-form-card { padding:28px 20px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════
+     NAV
+═══════════════════════════════════════ -->
+<nav id="mainNav">
+  <div class="nav-logo" onclick="showPage('home')">
+    <svg width="36" height="36" viewBox="0 0 134 130" fill="none">
+      <circle cx="67" cy="65" r="62" stroke="#7A9E7E" stroke-width="1.5"/>
+      <circle cx="67" cy="65" r="54" stroke="#7A9E7E" stroke-width="0.7" opacity="0.5"/>
+      <circle cx="57" cy="40" r="9" fill="none" stroke="#7A9E7E" stroke-width="2" opacity="0.5"/>
+      <line x1="61" y1="49" x2="67" y2="72" stroke="#7A9E7E" stroke-width="2.3" stroke-linecap="round" opacity="0.5"/>
+      <line x1="67" y1="72" x2="87" y2="49" stroke="#7A9E7E" stroke-width="2.3" stroke-linecap="round" opacity="0.5"/>
+      <line x1="67" y1="72" x2="91" y2="57" stroke="#7A9E7E" stroke-width="2.3" stroke-linecap="round" opacity="0.5"/>
+      <circle cx="62" cy="47" r="6.5" fill="none" stroke="#D4785A" stroke-width="1.8"/>
+      <line x1="65" y1="54" x2="70" y2="71" stroke="#D4785A" stroke-width="1.9" stroke-linecap="round"/>
+      <line x1="70" y1="71" x2="83" y2="55" stroke="#D4785A" stroke-width="1.9" stroke-linecap="round"/>
+      <line x1="70" y1="71" x2="86" y2="62" stroke="#D4785A" stroke-width="1.9" stroke-linecap="round"/>
+      <circle cx="67" cy="53" r="4.5" fill="none" stroke="#2C2C2C" stroke-width="1.6"/>
+      <line x1="70" y1="58" x2="73" y2="71" stroke="#2C2C2C" stroke-width="1.7" stroke-linecap="round"/>
+      <line x1="73" y1="71" x2="82" y2="60" stroke="#2C2C2C" stroke-width="1.7" stroke-linecap="round"/>
+      <line x1="73" y1="71" x2="85" y2="65" stroke="#2C2C2C" stroke-width="1.7" stroke-linecap="round"/>
+    </svg>
+    <div class="nav-logo-text">
+      <div class="nav-logo-name">Circle of Life Pilates</div>
+      <div class="nav-logo-tag">Movement for every age</div>
+    </div>
+  </div>
+  <div class="nav-links">
+    <span class="nav-link active" data-page="home" onclick="showPage('home')">Home</span>
+    <span class="nav-link" data-page="about" onclick="showPage('about')">About</span>
+    <span class="nav-link" data-page="videos" onclick="showPage('videos')">Videos</span>
+    <span class="nav-link" data-page="resource" onclick="showPage('resource')">Free Guide</span>
+    <span class="nav-link" data-page="contact" onclick="showPage('contact')">Contact</span>
+  </div>
+  <div class="nav-cta" onclick="showPage('resource')">Get Free Guide</div>
+  <div class="nav-mobile-toggle" onclick="toggleMobileMenu()" id="mobileToggle">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <span class="nav-link" onclick="showPage('home');toggleMobileMenu()">Home</span>
+  <span class="nav-link" onclick="showPage('about');toggleMobileMenu()">About</span>
+  <span class="nav-link" onclick="showPage('videos');toggleMobileMenu()">Videos</span>
+  <span class="nav-link" onclick="showPage('resource');toggleMobileMenu()">Free Guide</span>
+  <span class="nav-link" onclick="showPage('contact');toggleMobileMenu()">Contact</span>
+  <div class="nav-cta" style="text-align:center;margin-top:8px;" onclick="showPage('resource');toggleMobileMenu()">Get Free Guide</div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     PAGE: HOME
+═══════════════════════════════════════ -->
+<div class="page active" id="page-home">
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-bg-ring hero-bg-ring-1"></div>
+    <div class="hero-bg-ring hero-bg-ring-2"></div>
+    <div class="hero-bg-ring hero-bg-ring-3"></div>
+    <div class="hero-content">
+      <div class="hero-left">
+        <div class="hero-eyebrow">Certified Pilates · Registered Nurse</div>
+        <h1 class="hero-title">
+          Movement<br>
+          <em>for every age.</em>
+        </h1>
+        <p class="hero-body">Pilates designed for the whole circle of life — from curious little ones to active seniors. Guided by a certified instructor who also happens to be a nurse.</p>
+        <div class="hero-actions">
+          <div class="hero-btn-primary" onclick="showPage('videos')">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><polygon points="3,1 13,7 3,13" fill="#4A7A52"/></svg>
+            Watch Videos
+          </div>
+          <div class="hero-btn-ghost" onclick="showPage('resource')">Get Free Guide</div>
+        </div>
+        <div class="hero-series">
+          <span class="hero-series-tag" onclick="showPage('videos')">Seniors</span>
+          <span class="hero-series-tag" onclick="showPage('videos')">Adults</span>
+          <span class="hero-series-tag" onclick="showPage('videos')">Kids</span>
+          <span class="hero-series-tag" onclick="showPage('videos')">Family</span>
+        </div>
+      </div>
+      <div class="hero-right">
+        <svg width="340" height="340" viewBox="0 0 134 130" fill="none">
+          <circle cx="67" cy="65" r="62" stroke="rgba(255,255,255,0.5)" stroke-width="1.3"/>
+          <circle cx="67" cy="65" r="54" stroke="rgba(255,255,255,0.22)" stroke-width="0.75"/>
+          <circle cx="67" cy="65" r="46" stroke="rgba(201,168,76,0.35)" stroke-width="0.5" stroke-dasharray="2 4"/>
+          <path d="M43 9 Q67 1 91 9" stroke="rgba(201,168,76,0.8)" stroke-width="1" fill="none" stroke-linecap="round"/>
+          <circle cx="67" cy="2.5" r="2.5" fill="#C9A84C"/>
+          <circle cx="46" cy="8" r="1.5" fill="#C9A84C" opacity="0.5"/>
+          <circle cx="88" cy="8" r="1.5" fill="#C9A84C" opacity="0.5"/>
+          <path d="M43 121 Q67 129 91 121" stroke="rgba(201,168,76,0.8)" stroke-width="1" fill="none" stroke-linecap="round"/>
+          <circle cx="67" cy="127.5" r="2.5" fill="#C9A84C"/>
+          <circle cx="5" cy="65" r="2.2" fill="rgba(255,255,255,0.5)"/>
+          <circle cx="129" cy="65" r="2.2" fill="rgba(255,255,255,0.5)"/>
+          <!-- adult sage -->
+          <circle cx="57" cy="40" r="9" fill="none" stroke="rgba(255,255,255,0.38)" stroke-width="2"/>
+          <line x1="61" y1="49" x2="67" y2="72" stroke="rgba(255,255,255,0.38)" stroke-width="2.3" stroke-linecap="round"/>
+          <line x1="63" y1="58" x2="85" y2="47" stroke="rgba(255,255,255,0.32)" stroke-width="2" stroke-linecap="round"/>
+          <line x1="63" y1="61" x2="85" y2="51" stroke="rgba(255,255,255,0.32)" stroke-width="2" stroke-linecap="round"/>
+          <line x1="67" y1="72" x2="87" y2="49" stroke="rgba(255,255,255,0.38)" stroke-width="2.3" stroke-linecap="round"/>
+          <line x1="67" y1="72" x2="91" y2="57" stroke="rgba(255,255,255,0.38)" stroke-width="2.3" stroke-linecap="round"/>
+          <line x1="87" y1="49" x2="89" y2="45" stroke="rgba(255,255,255,0.3)" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="91" y1="57" x2="93" y2="53" stroke="rgba(255,255,255,0.3)" stroke-width="1.5" stroke-linecap="round"/>
+          <!-- child terracotta -->
+          <circle cx="62" cy="47" r="6.5" fill="none" stroke="rgba(255,255,255,0.82)" stroke-width="1.8"/>
+          <line x1="65" y1="54" x2="70" y2="71" stroke="rgba(255,255,255,0.82)" stroke-width="1.9" stroke-linecap="round"/>
+          <line x1="67" y1="61" x2="83" y2="53" stroke="rgba(255,255,255,0.76)" stroke-width="1.7" stroke-linecap="round"/>
+          <line x1="67" y1="64" x2="83" y2="57" stroke="rgba(255,255,255,0.76)" stroke-width="1.7" stroke-linecap="round"/>
+          <line x1="70" y1="71" x2="83" y2="55" stroke="rgba(255,255,255,0.82)" stroke-width="1.9" stroke-linecap="round"/>
+          <line x1="70" y1="71" x2="86" y2="62" stroke="rgba(255,255,255,0.82)" stroke-width="1.9" stroke-linecap="round"/>
+          <line x1="83" y1="55" x2="85" y2="51" stroke="rgba(255,255,255,0.75)" stroke-width="1.2" stroke-linecap="round"/>
+          <line x1="86" y1="62" x2="88" y2="58" stroke="rgba(255,255,255,0.75)" stroke-width="1.2" stroke-linecap="round"/>
+          <!-- senior white -->
+          <circle cx="67" cy="53" r="4.5" fill="none" stroke="white" stroke-width="1.6"/>
+          <line x1="70" y1="58" x2="73" y2="71" stroke="white" stroke-width="1.7" stroke-linecap="round"/>
+          <line x1="71" y1="63" x2="82" y2="58" stroke="white" stroke-width="1.4" stroke-linecap="round"/>
+          <line x1="71" y1="65" x2="82" y2="61" stroke="white" stroke-width="1.4" stroke-linecap="round"/>
+          <line x1="73" y1="71" x2="82" y2="60" stroke="white" stroke-width="1.7" stroke-linecap="round"/>
+          <line x1="73" y1="71" x2="85" y2="65" stroke="white" stroke-width="1.7" stroke-linecap="round"/>
+          <line x1="82" y1="60" x2="84" y2="57" stroke="white" stroke-width="1.1" stroke-linecap="round"/>
+          <line x1="85" y1="65" x2="87" y2="62" stroke="white" stroke-width="1.1" stroke-linecap="round"/>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- Series strip -->
+  <div class="series-strip">
+    <div class="series-strip-inner">
+      <div class="series-card sc-sage" onclick="showPage('videos')">
+        <div class="sc-dot"></div>
+        <div class="sc-title">Seniors</div>
+        <div class="sc-desc">Chair &amp; floor Pilates designed for bodies over 60. Safe, gentle, effective.</div>
+      </div>
+      <div class="series-card sc-gold" onclick="showPage('videos')">
+        <div class="sc-dot"></div>
+        <div class="sc-title">Adults</div>
+        <div class="sc-desc">For nurses, parents, and busy people. Fix your back. Feel stronger.</div>
+      </div>
+      <div class="series-card sc-terra" onclick="showPage('videos')">
+        <div class="sc-dot"></div>
+        <div class="sc-title">Kids</div>
+        <div class="sc-desc">Fun, playful movement for children ages 3–12. No equipment needed.</div>
+      </div>
+      <div class="series-card sc-dark" onclick="showPage('videos')">
+        <div class="sc-dot"></div>
+        <div class="sc-title">Family</div>
+        <div class="sc-desc">10-minute routines the whole family — grandparents included — can do together.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Intro / About snippet -->
+  <section class="section">
+    <div class="container">
+      <div class="intro-grid">
+        <div>
+          <div class="eyebrow">Why Circle of Life</div>
+          <h2 class="display-heading">Pilates that meets you<br><em>exactly where you are.</em></h2>
+          <div class="ornament-divider"><div class="od-line"></div><div class="od-mark"></div><div class="od-line"></div></div>
+          <p class="body-text" style="margin-bottom:20px;">Every body is different. A 6-year-old and a 76-year-old don't need the same workout — but they both deserve one that's joyful, safe, and genuinely effective.</p>
+          <p class="body-text" style="margin-bottom:32px;">As a registered nurse and certified Pilates instructor, I bring clinical body knowledge to every class. That means you'll not only move — you'll understand <em>why</em> each movement matters for your body.</p>
+          <div style="display:flex;gap:14px;flex-wrap:wrap;">
+            <div class="btn-primary" onclick="showPage('about')">Meet Your Instructor</div>
+            <div class="btn-ghost" onclick="showPage('videos')">Browse Videos</div>
+          </div>
+          <div class="intro-stats">
+            <div class="stat-card">
+              <div class="stat-num">4</div>
+              <div class="stat-label">Age-focused series</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-num">RN</div>
+              <div class="stat-label">Registered Nurse</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-num">10</div>
+              <div class="stat-label">Min average class length</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-num">Free</div>
+              <div class="stat-label">Starter guide included</div>
+            </div>
+          </div>
+        </div>
+        <div class="intro-logo-wrap">
+          <div class="intro-logo-bg">
+            <svg width="240" height="240" viewBox="0 0 134 130" fill="none">
+              <circle cx="67" cy="65" r="62" stroke="#7A9E7E" stroke-width="1.3"/>
+              <circle cx="67" cy="65" r="54" stroke="#7A9E7E" stroke-width="0.75" opacity="0.4"/>
+              <circle cx="67" cy="65" r="46" stroke="#C9A84C" stroke-width="0.5" stroke-dasharray="2 4" opacity="0.6"/>
+              <path d="M43 9 Q67 1 91 9" stroke="#C9A84C" stroke-width="1" fill="none" stroke-linecap="round"/>
+              <circle cx="67" cy="2.5" r="2.5" fill="#C9A84C"/>
+              <path d="M43 121 Q67 129 91 121" stroke="#C9A84C" stroke-width="1" fill="none" stroke-linecap="round"/>
+              <circle cx="67" cy="127.5" r="2.5" fill="#C9A84C"/>
+              <circle cx="5" cy="65" r="2.2" fill="#7A9E7E"/>
+              <circle cx="129" cy="65" r="2.2" fill="#7A9E7E"/>
+              <circle cx="57" cy="40" r="9" fill="none" stroke="#7A9E7E" stroke-width="2"/>
+              <line x1="61" y1="49" x2="67" y2="72" stroke="#7A9E7E" stroke-width="2.3" stroke-linecap="round"/>
+              <line x1="63" y1="58" x2="85" y2="47" stroke="#7A9E7E" stroke-width="2" stroke-linecap="round"/>
+              <line x1="63" y1="61" x2="85" y2="51" stroke="#7A9E7E" stroke-width="2" stroke-linecap="round"/>
+              <line x1="67" y1="72" x2="87" y2="49" stroke="#7A9E7E" stroke-width="2.3" stroke-linecap="round"/>
+              <line x1="67" y1="72" x2="91" y2="57" stroke="#7A9E7E" stroke-width="2.3" stroke-linecap="round"/>
+              <circle cx="62" cy="47" r="6.5" fill="none" stroke="#D4785A" stroke-width="1.8"/>
+              <line x1="65" y1="54" x2="70" y2="71" stroke="#D4785A" stroke-width="1.9" stroke-linecap="round"/>
+              <line x1="70" y1="71" x2="83" y2="55" stroke="#D4785A" stroke-width="1.9" stroke-linecap="round"/>
+              <line x1="70" y1="71" x2="86" y2="62" stroke="#D4785A" stroke-width="1.9" stroke-linecap="round"/>
+              <circle cx="67" cy="53" r="4.5" fill="none" stroke="#2C2C2C" stroke-width="1.6"/>
+              <line x1="70" y1="58" x2="73" y2="71" stroke="#2C2C2C" stroke-width="1.7" stroke-linecap="round"/>
+              <line x1="73" y1="71" x2="82" y2="60" stroke="#2C2C2C" stroke-width="1.7" stroke-linecap="round"/>
+              <line x1="73" y1="71" x2="85" y2="65" stroke="#2C2C2C" stroke-width="1.7" stroke-linecap="round"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA banner -->
+  <section style="background:var(--terra-pale);border-top:1px solid var(--light);border-bottom:1px solid var(--light);">
+    <div class="container" style="padding-top:60px;padding-bottom:60px;display:flex;justify-content:space-between;align-items:center;gap:32px;flex-wrap:wrap;">
+      <div>
+        <div class="eyebrow">Free Download</div>
+        <h3 style="font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:600;line-height:1.2;margin-top:4px;">Get the 5-Minute Morning<br>Pilates Routine — Free</h3>
+      </div>
+      <div class="btn-primary" onclick="showPage('resource')" style="background:var(--terra);flex-shrink:0;">
+        Download Free Guide
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6h8M6 2l4 4-4 4" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+    </div>
+  </section>
+
+</div><!-- /page-home -->
+
+
+<!-- ═══════════════════════════════════════
+     PAGE: ABOUT
+═══════════════════════════════════════ -->
+<div class="page" id="page-about">
+  <div class="about-hero">
+    <div class="container">
+      <div class="about-hero-inner">
+        <div>
+          <div class="eyebrow">Your Instructor</div>
+          <h1 class="display-heading">A nurse who<br><em>teaches Pilates.</em></h1>
+          <div class="ornament-divider"><div class="od-line"></div><div class="od-mark"></div><div class="od-line"></div></div>
+          <p class="body-text" style="margin-bottom:20px;">I'm a registered nurse and certified Pilates instructor — and yes, I also have two little kids, a full-time nursing job, and about 1–2 spare hours a week. So I know what it means to want movement in your life without having unlimited time for it.</p>
+          <p class="body-text" style="margin-bottom:24px;">Circle of Life Pilates exists because I believe that movement is medicine — for a 5-year-old burning off energy, for a 45-year-old with a sore back from a long shift, and for an 80-year-old who wants to stay strong and independent.</p>
+          <p class="body-text" style="margin-bottom:32px;">Every video I make is informed by my clinical training. You'll hear me explain <em>why</em> a movement works, not just how to do it. Because understanding your body is part of caring for it.</p>
+          <div class="about-credentials">
+            <div class="cred-chip"><div class="dot"></div>Certified Pilates Instructor</div>
+            <div class="cred-chip"><div class="dot"></div>Registered Nurse (RN)</div>
+            <div class="cred-chip"><div class="dot"></div>All-Ages Specialist</div>
+          </div>
+          <div style="display:flex;gap:14px;flex-wrap:wrap;">
+            <div class="btn-primary" onclick="showPage('videos')">Watch Videos</div>
+            <div class="btn-ghost" onclick="showPage('contact')">Get in Touch</div>
+          </div>
+        </div>
+        <div>
+          <div class="about-portrait">
+            <div class="about-portrait-ring"></div>
+            <svg width="160" height="160" viewBox="0 0 134 130" fill="none">
+              <circle cx="67" cy="65" r="62" stroke="#7A9E7E" stroke-width="1.5"/>
+              <circle cx="67" cy="65" r="54" stroke="#7A9E7E" stroke-width="0.75" opacity="0.4"/>
+              <path d="M43 9 Q67 1 91 9" stroke="#C9A84C" stroke-width="1" fill="none" stroke-linecap="round"/>
+              <circle cx="67" cy="2.5" r="2.5" fill="#C9A84C"/>
+              <circle cx="57" cy="40" r="9" fill="none" stroke="#7A9E7E" stroke-width="2"/>
+              <line x1="61" y1="49" x2="67" y2="72" stroke="#7A9E7E" stroke-width="2.3" stroke-linecap="round"/>
+              <line x1="63" y1="58" x2="85" y2="47" stroke="#7A9E7E" stroke-width="2" stroke-linecap="round"/>
+              <line x1="63" y1="61" x2="85" y2="51" stroke="#7A9E7E" stroke-width="2" stroke-linecap="round"/>
+              <line x1="67" y1="72" x2="87" y2="49" stroke="#7A9E7E" stroke-width="2.3" stroke-linecap="round"/>
+              <line x1="67" y1="72" x2="91" y2="57" stroke="#7A9E7E" stroke-width="2.3" stroke-linecap="round"/>
+              <circle cx="62" cy="47" r="6.5" fill="none" stroke="#D4785A" stroke-width="1.8"/>
+              <line x1="65" y1="54" x2="70" y2="71" stroke="#D4785A" stroke-width="1.9" stroke-linecap="round"/>
+              <line x1="70" y1="71" x2="83" y2="55" stroke="#D4785A" stroke-width="1.9" stroke-linecap="round"/>
+              <line x1="70" y1="71" x2="86" y2="62" stroke="#D4785A" stroke-width="1.9" stroke-linecap="round"/>
+              <circle cx="67" cy="53" r="4.5" fill="none" stroke="#2C2C2C" stroke-width="1.6"/>
+              <line x1="70" y1="58" x2="73" y2="71" stroke="#2C2C2C" stroke-width="1.7" stroke-linecap="round"/>
+              <line x1="73" y1="71" x2="82" y2="60" stroke="#2C2C2C" stroke-width="1.7" stroke-linecap="round"/>
+              <line x1="73" y1="71" x2="85" y2="65" stroke="#2C2C2C" stroke-width="1.7" stroke-linecap="round"/>
+            </svg>
+            <div class="about-portrait-text">Add your photo here in Canva or your web editor</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Values -->
+  <section class="section">
+    <div class="container">
+      <div class="eyebrow">What I believe</div>
+      <h2 class="display-heading" style="margin-bottom:40px;">The values behind<br><em>every class.</em></h2>
+      <div class="values-grid">
+        <div class="value-card vc-sage">
+          <div class="value-icon">🌿</div>
+          <div class="value-title">Evidence-Based Movement</div>
+          <div class="value-body">Every exercise I teach is grounded in anatomy and physiology. As a nurse, I won't recommend anything I wouldn't feel comfortable explaining clinically.</div>
+        </div>
+        <div class="value-card vc-terra">
+          <div class="value-icon">❤️</div>
+          <div class="value-title">Radical Inclusivity</div>
+          <div class="value-body">No age is too young or too old for Pilates. No body is too stiff, too weak, or too out of shape. You belong here exactly as you are.</div>
+        </div>
+        <div class="value-card vc-gold">
+          <div class="value-icon">⏱️</div>
+          <div class="value-title">Respect for Your Time</div>
+          <div class="value-body">I'm a working nurse and mom of two. I know you don't have an hour. Every class is 10–15 minutes and designed to be worth it.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div><!-- /page-about -->
+
+
+<!-- ═══════════════════════════════════════
+     PAGE: VIDEOS
+═══════════════════════════════════════ -->
+<div class="page" id="page-videos">
+  <div class="videos-header">
+    <div class="container">
+      <div class="eyebrow">Video Library</div>
+      <h1 class="display-heading">Find your <em>perfect class.</em></h1>
+      <div class="filter-tabs" id="filterTabs">
+        <div class="filter-tab active" data-filter="all" onclick="filterVideos('all',this)">All Videos</div>
+        <div class="filter-tab" data-filter="seniors" onclick="filterVideos('seniors',this)">Seniors</div>
+        <div class="filter-tab" data-filter="adults" onclick="filterVideos('adults',this)">Adults</div>
+        <div class="filter-tab" data-filter="kids" onclick="filterVideos('kids',this)">Kids</div>
+        <div class="filter-tab" data-filter="family" onclick="filterVideos('family',this)">Family</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="videos-grid" id="videosGrid">
+
+      <div class="video-card" data-series="seniors">
+        <div class="video-thumb vt-sage">
+          <div class="vt-ring"></div><div class="vt-ring-2"></div>
+          <div class="vt-play"><svg width="12" height="14" viewBox="0 0 12 14" fill="none"><polygon points="0,0 12,7 0,14" fill="white"/></svg></div>
+          <div class="vt-meta"><span class="vt-series-tag">Seniors</span><span class="vt-duration">10:24</span></div>
+        </div>
+        <div class="video-info">
+          <div class="video-title">10-Min Chair Pilates for Beginners Over 60</div>
+          <div class="video-desc">Gentle seated movements to build core strength and improve balance — no floor work needed.</div>
+          <div class="video-tag-row"><span class="video-mini-tag">Beginner</span><span class="video-mini-tag">Chair</span><span class="video-mini-tag">No equipment</span></div>
+        </div>
+      </div>
+
+      <div class="video-card" data-series="adults">
+        <div class="video-thumb vt-gold">
+          <div class="vt-ring"></div><div class="vt-ring-2"></div>
+          <div class="vt-play"><svg width="12" height="14" viewBox="0 0 12 14" fill="none"><polygon points="0,0 12,7 0,14" fill="white"/></svg></div>
+          <div class="vt-meta"><span class="vt-series-tag">Adults</span><span class="vt-duration">10:52</span></div>
+        </div>
+        <div class="video-info">
+          <div class="video-title">Pilates for Nurses — Fix Your Lower Back</div>
+          <div class="video-desc">From a nurse who knows: the 5 moves that undo a long shift on your feet. Evidence-based, effective.</div>
+          <div class="video-tag-row"><span class="video-mini-tag">Lower back</span><span class="video-mini-tag">Nurses</span><span class="video-mini-tag">10 min</span></div>
+        </div>
+      </div>
+
+      <div class="video-card" data-series="kids">
+        <div class="video-thumb vt-terra">
+          <div class="vt-ring"></div><div class="vt-ring-2"></div>
+          <div class="vt-play"><svg width="12" height="14" viewBox="0 0 12 14" fill="none"><polygon points="0,0 12,7 0,14" fill="white"/></svg></div>
+          <div class="vt-meta"><span class="vt-series-tag">Kids</span><span class="vt-duration">8:40</span></div>
+        </div>
+        <div class="video-info">
+          <div class="video-title">Fun Pilates for Kids Ages 4–10</div>
+          <div class="video-desc">Animal moves, balance games, and stretches that kids actually want to do. No equipment, tons of fun.</div>
+          <div class="video-tag-row"><span class="video-mini-tag">Ages 4–10</span><span class="video-mini-tag">No equipment</span><span class="video-mini-tag">Fun</span></div>
+        </div>
+      </div>
+
+      <div class="video-card" data-series="family">
+        <div class="video-thumb vt-dark">
+          <div class="vt-ring"></div><div class="vt-ring-2"></div>
+          <div class="vt-play"><svg width="12" height="14" viewBox="0 0 12 14" fill="none"><polygon points="0,0 12,7 0,14" fill="white"/></svg></div>
+          <div class="vt-meta"><span class="vt-series-tag">Family</span><span class="vt-duration">11:30</span></div>
+        </div>
+        <div class="video-info">
+          <div class="video-title">10-Min Pilates You Can Do WITH Your Kids</div>
+          <div class="video-desc">A routine designed so parents and children can follow along together — even if your kid keeps falling over.</div>
+          <div class="video-tag-row"><span class="video-mini-tag">All ages</span><span class="video-mini-tag">Family</span><span class="video-mini-tag">10 min</span></div>
+        </div>
+      </div>
+
+      <div class="video-card" data-series="seniors">
+        <div class="video-thumb vt-sage">
+          <div class="vt-ring"></div><div class="vt-ring-2"></div>
+          <div class="vt-play"><svg width="12" height="14" viewBox="0 0 12 14" fill="none"><polygon points="0,0 12,7 0,14" fill="white"/></svg></div>
+          <div class="vt-meta"><span class="vt-series-tag">Seniors</span><span class="vt-duration">12:05</span></div>
+        </div>
+        <div class="video-info">
+          <div class="video-title">Gentle Core for Seniors — No Floor Work</div>
+          <div class="video-desc">Build core strength without getting down on the floor. Safe for those with knee or hip concerns.</div>
+          <div class="video-tag-row"><span class="video-mini-tag">Core</span><span class="video-mini-tag">Standing</span><span class="video-mini-tag">Hip-safe</span></div>
+        </div>
+      </div>
+
+      <div class="video-card" data-series="adults">
+        <div class="video-thumb vt-gold">
+          <div class="vt-ring"></div><div class="vt-ring-2"></div>
+          <div class="vt-play"><svg width="12" height="14" viewBox="0 0 12 14" fill="none"><polygon points="0,0 12,7 0,14" fill="white"/></svg></div>
+          <div class="vt-meta"><span class="vt-series-tag">Adults</span><span class="vt-duration">10:08</span></div>
+        </div>
+        <div class="video-info">
+          <div class="video-title">Busy Parent Core Workout — 10 Minutes</div>
+          <div class="video-desc">No mat, no gym, no childcare needed. Do this in your living room while the kids watch TV.</div>
+          <div class="video-tag-row"><span class="video-mini-tag">Core</span><span class="video-mini-tag">Parents</span><span class="video-mini-tag">No mat</span></div>
+        </div>
+      </div>
+
+      <div class="video-card-soon" data-series="kids">
+        <div style="font-size:28px;">🌀</div>
+        <div class="vcs-label">Coming Soon</div>
+        <div class="vcs-text">Animal Moves Pilates<br>for Little Ones</div>
+        <span class="tag-pill tp-terra" style="margin-top:4px;">Kids</span>
+      </div>
+
+      <div class="video-card-soon" data-series="family">
+        <div style="font-size:28px;">🌀</div>
+        <div class="vcs-label">Coming Soon</div>
+        <div class="vcs-text">Sunday Morning<br>Family Stretch</div>
+        <span class="tag-pill tp-dark" style="margin-top:4px;">Family</span>
+      </div>
+
+      <div class="video-card-soon" data-series="seniors">
+        <div style="font-size:28px;">🌀</div>
+        <div class="vcs-label">Coming Soon</div>
+        <div class="vcs-text">Balance &amp; Fall Prevention<br>Over 70</div>
+        <span class="tag-pill tp-sage" style="margin-top:4px;">Seniors</span>
+      </div>
+
+    </div>
+
+    <!-- Subscribe CTA -->
+    <div style="text-align:center;padding:40px 0 80px;">
+      <p style="font-size:13px;color:var(--mid);margin-bottom:20px;">New videos added every week. Subscribe on YouTube to never miss one.</p>
+      <a href="https://youtube.com" target="_blank" class="btn-primary" style="display:inline-flex;">
+        <svg width="16" height="12" viewBox="0 0 16 12" fill="none"><rect x="0" y="0" width="16" height="12" rx="3" fill="#FF0000"/><polygon points="6,3 12,6 6,9" fill="white"/></svg>
+        Subscribe on YouTube
+      </a>
+    </div>
+  </div>
+</div><!-- /page-videos -->
+
+
+<!-- ═══════════════════════════════════════
+     PAGE: FREE RESOURCE
+═══════════════════════════════════════ -->
+<div class="page" id="page-resource">
+  <div class="resource-hero">
+    <div class="container">
+      <div class="resource-hero-inner">
+        <div>
+          <div class="resource-eyebrow">Free Download</div>
+          <h1 class="resource-title">Your 5-Minute<br><em>Morning Routine.</em></h1>
+          <p class="resource-body">A simple, gentle Pilates sequence you can do before you get out of bed. Designed to work for any age, any body. Takes 5 minutes. Changes how the whole day feels.</p>
+          <div style="display:flex;gap:20px;flex-wrap:wrap;">
+            <div style="display:flex;align-items:center;gap:10px;">
+              <div style="width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;font-size:14px;">✓</div>
+              <span style="font-size:13px;color:rgba(255,255,255,0.75);">Printable PDF</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;">
+              <div style="width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;font-size:14px;">✓</div>
+              <span style="font-size:13px;color:rgba(255,255,255,0.75);">All ages &amp; abilities</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;">
+              <div style="width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;font-size:14px;">✓</div>
+              <span style="font-size:13px;color:rgba(255,255,255,0.75);">100% free</span>
+            </div>
+          </div>
+        </div>
+        <div class="pdf-card">
+          <div class="pdf-card-tag">Free Guide</div>
+          <div class="pdf-card-title">5-Minute Morning Pilates for Any Age</div>
+          <div class="pdf-includes">
+            <div class="pdf-include-row"><div class="pdf-check">✓</div>5 illustrated movements</div>
+            <div class="pdf-include-row"><div class="pdf-check">✓</div>Modifications for every level</div>
+            <div class="pdf-include-row"><div class="pdf-check">✓</div>Senior-safe & kid-friendly versions</div>
+            <div class="pdf-include-row"><div class="pdf-check">✓</div>Nurse-approved breathing guide</div>
+          </div>
+          <div class="signup-form" id="signupForm">
+            <div class="form-field">
+              <label class="form-label">Your name</label>
+              <input type="text" class="form-input" placeholder="First name">
+            </div>
+            <div class="form-field">
+              <label class="form-label">Email address</label>
+              <input type="email" class="form-input" placeholder="your@email.com">
+            </div>
+            <button class="form-submit" onclick="handleSignup()">
+              Send Me the Free Guide
+              <svg width="14" height="10" viewBox="0 0 14 10" fill="none"><path d="M1 5h12M8 1l4 4-4 4" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <div class="form-privacy">No spam ever. Unsubscribe anytime. 🌀</div>
+          </div>
+          <div class="form-success" id="signupSuccess">
+            <div class="success-icon">🌿</div>
+            <div class="success-title">It's on its way!</div>
+            <div class="success-body">Check your inbox for your free morning routine. Welcome to the Circle of Life community.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- What's inside -->
+  <section class="section">
+    <div class="container">
+      <div class="eyebrow">What's inside</div>
+      <h2 class="display-heading" style="margin-bottom:40px;">Everything you need to<br><em>start moving today.</em></h2>
+      <div class="inside-grid">
+        <div class="inside-card">
+          <div class="inside-icon">🧘</div>
+          <div class="inside-body">
+            <div class="inside-title">5 Morning Movements</div>
+            <div class="inside-desc">Carefully chosen exercises that activate your core, open your spine, and wake up your body gently — before you even stand up.</div>
+          </div>
+        </div>
+        <div class="inside-card">
+          <div class="inside-icon">👨‍👩‍👧‍👦</div>
+          <div class="inside-body">
+            <div class="inside-title">Every-Age Modifications</div>
+            <div class="inside-desc">Each movement has a senior-safe chair version and a kids' variation — so the whole family can use the same guide.</div>
+          </div>
+        </div>
+        <div class="inside-card">
+          <div class="inside-icon">🫁</div>
+          <div class="inside-body">
+            <div class="inside-title">Breathing Guide</div>
+            <div class="inside-desc">Pilates breathing is half the practice. This guide explains when to inhale and exhale for each movement — nurse-approved and clinically accurate.</div>
+          </div>
+        </div>
+        <div class="inside-card">
+          <div class="inside-icon">🖨️</div>
+          <div class="inside-body">
+            <div class="inside-title">Print &amp; Keep</div>
+            <div class="inside-desc">Formatted to print on a single A4 page and stick on your fridge, bedside table, or bathroom mirror. No phone needed once you have it.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div><!-- /page-resource -->
+
+
+<!-- ═══════════════════════════════════════
+     PAGE: CONTACT
+═══════════════════════════════════════ -->
+<div class="page" id="page-contact">
+  <div class="contact-header">
+    <div class="container">
+      <div class="eyebrow">Get in Touch</div>
+      <h1 class="display-heading">Let's <em>connect.</em></h1>
+      <p class="body-text" style="max-width:480px;margin-top:16px;">Questions about a video, collaboration ideas, or just want to say hello — I'd love to hear from you.</p>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="contact-grid">
+      <div class="contact-info">
+        <div class="contact-info-title">Happy to hear<br>from you.</div>
+        <div class="contact-info-body">Whether you're a senior looking for a safe place to start, a parent wanting classes for your kids, or a healthcare professional interested in collaborating — reach out anytime.</div>
+        <div class="contact-methods">
+          <div class="contact-method">
+            <div class="cm-icon">📺</div>
+            <div>
+              <div class="cm-label">YouTube</div>
+              <div class="cm-val">@CircleOfLifePilates</div>
+            </div>
+          </div>
+          <div class="contact-method">
+            <div class="cm-icon">📧</div>
+            <div>
+              <div class="cm-label">Email</div>
+              <div class="cm-val">hello@circleoflifepilates.com</div>
+            </div>
+          </div>
+          <div class="contact-method">
+            <div class="cm-icon">📍</div>
+            <div>
+              <div class="cm-label">Based in</div>
+              <div class="cm-val">Surrey, BC, Canada</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="contact-form-card">
+        <div id="contactFormWrap">
+          <div class="contact-form-title">Send a message</div>
+          <div class="contact-form-sub">I read every message personally and reply within a few days.</div>
+          <div class="contact-form">
+            <div class="form-row">
+              <div class="form-field">
+                <label class="form-label">First name</label>
+                <input type="text" class="form-input" placeholder="Your name">
+              </div>
+              <div class="form-field">
+                <label class="form-label">Email</label>
+                <input type="email" class="form-input" placeholder="your@email.com">
+              </div>
+            </div>
+            <div class="form-field">
+              <label class="form-label">Subject</label>
+              <select class="form-select">
+                <option value="">What's this about?</option>
+                <option>Question about a video</option>
+                <option>Collaboration or partnership</option>
+                <option>Request a video topic</option>
+                <option>General hello</option>
+                <option>Something else</option>
+              </select>
+            </div>
+            <div class="form-field">
+              <label class="form-label">Message</label>
+              <textarea class="form-textarea" placeholder="Tell me what's on your mind..."></textarea>
+            </div>
+            <button class="form-submit" onclick="handleContact()">
+              Send Message
+              <svg width="14" height="10" viewBox="0 0 14 10" fill="none"><path d="M1 5h12M8 1l4 4-4 4" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+          </div>
+        </div>
+        <div class="form-success" id="contactSuccess">
+          <div class="success-icon">🌀</div>
+          <div class="success-title">Message sent!</div>
+          <div class="success-body">Thank you for reaching out. I'll be in touch within a few days.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div><!-- /page-contact -->
+
+
+<!-- ═══════════════════════════════════════
+     FOOTER (always visible)
+═══════════════════════════════════════ -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <svg width="44" height="44" viewBox="0 0 134 130" fill="none">
+          <circle cx="67" cy="65" r="62" stroke="#7A9E7E" stroke-width="1.5"/>
+          <circle cx="62" cy="47" r="6.5" fill="none" stroke="rgba(255,255,255,0.7)" stroke-width="1.8"/>
+          <line x1="65" y1="54" x2="70" y2="71" stroke="rgba(255,255,255,0.7)" stroke-width="1.9" stroke-linecap="round"/>
+          <line x1="70" y1="71" x2="83" y2="55" stroke="rgba(255,255,255,0.7)" stroke-width="1.9" stroke-linecap="round"/>
+          <line x1="70" y1="71" x2="86" y2="62" stroke="rgba(255,255,255,0.7)" stroke-width="1.9" stroke-linecap="round"/>
+          <circle cx="67" cy="53" r="4.5" fill="none" stroke="white" stroke-width="1.6"/>
+          <line x1="70" y1="58" x2="73" y2="71" stroke="white" stroke-width="1.7" stroke-linecap="round"/>
+          <line x1="73" y1="71" x2="82" y2="60" stroke="white" stroke-width="1.7" stroke-linecap="round"/>
+          <line x1="73" y1="71" x2="85" y2="65" stroke="white" stroke-width="1.7" stroke-linecap="round"/>
+        </svg>
+        <div class="footer-logo-name">Circle of Life Pilates</div>
+        <div class="footer-logo-tag">Movement for every age</div>
+        <div class="footer-bio">Certified Pilates instruction guided by a registered nurse. Classes for seniors, adults, kids, and families — new videos weekly.</div>
+      </div>
+      <div>
+        <div class="footer-col-title">Navigate</div>
+        <div class="footer-links">
+          <span class="footer-link" onclick="showPage('home')">Home</span>
+          <span class="footer-link" onclick="showPage('about')">About</span>
+          <span class="footer-link" onclick="showPage('videos')">Videos</span>
+          <span class="footer-link" onclick="showPage('resource')">Free Guide</span>
+          <span class="footer-link" onclick="showPage('contact')">Contact</span>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-title">Series</div>
+        <div class="footer-links">
+          <span class="footer-link" onclick="showPage('videos');filterVideos('seniors',null)">● Seniors</span>
+          <span class="footer-link" onclick="showPage('videos');filterVideos('adults',null)">● Adults</span>
+          <span class="footer-link" onclick="showPage('videos');filterVideos('kids',null)">● Kids</span>
+          <span class="footer-link" onclick="showPage('videos');filterVideos('family',null)">● Family</span>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-title">Follow</div>
+        <div class="footer-social">
+          <a href="https://youtube.com" target="_blank" class="footer-social-link">
+            <div class="footer-social-icon">▶</div> YouTube
+          </a>
+          <div class="footer-social-link">
+            <div class="footer-social-icon">📘</div> Facebook
+          </div>
+          <div class="footer-social-link">
+            <div class="footer-social-icon">📸</div> Instagram
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-bottom-text">© 2026 Circle of Life Pilates · Surrey, BC, Canada</div>
+      <div class="footer-series-dots">
+        <div class="fsd" style="background:#7A9E7E"></div>
+        <div class="fsd" style="background:#D4785A"></div>
+        <div class="fsd" style="background:#C9A84C"></div>
+        <div class="fsd" style="background:rgba(255,255,255,0.3)"></div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+<script>
+// ── PAGE NAVIGATION ──
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => {
+    p.classList.remove('active','visible');
+  });
+  document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+  const page = document.getElementById('page-'+id);
+  page.classList.add('active');
+  setTimeout(() => page.classList.add('visible'), 20);
+  const link = document.querySelector('[data-page="'+id+'"]');
+  if (link) link.classList.add('active');
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+// ── NAV SCROLL ──
+window.addEventListener('scroll', () => {
+  document.getElementById('mainNav').classList.toggle('scrolled', window.scrollY > 20);
+});
+
+// ── MOBILE MENU ──
+function toggleMobileMenu() {
+  document.getElementById('mobileMenu').classList.toggle('open');
+}
+
+// ── VIDEO FILTER ──
+function filterVideos(series, tabEl) {
+  const cards = document.querySelectorAll('#videosGrid > *');
+  cards.forEach(card => {
+    const s = card.dataset.series;
+    card.style.display = (series === 'all' || s === series) ? '' : 'none';
+  });
+  if (tabEl) {
+    document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+    tabEl.classList.add('active');
+  } else {
+    document.querySelectorAll('.filter-tab').forEach(t => {
+      t.classList.toggle('active', t.dataset.filter === series);
+    });
+  }
+}
+
+// ── SIGNUP FORM ──
+function handleSignup() {
+  document.getElementById('signupForm').style.display = 'none';
+  document.getElementById('signupSuccess').classList.add('show');
+}
+
+// ── CONTACT FORM ──
+function handleContact() {
+  document.getElementById('contactFormWrap').style.display = 'none';
+  document.getElementById('contactSuccess').classList.add('show');
+}
+
+// ── INIT ──
+window.addEventListener('load', () => {
+  const active = document.querySelector('.page.active');
+  if (active) setTimeout(() => active.classList.add('visible'), 60);
+});
+</script>
+</body>
+</html>
